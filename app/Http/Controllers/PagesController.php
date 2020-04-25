@@ -160,16 +160,36 @@ class PagesController extends Controller
     public function bufferPostings(Request $request)
     {
         $user = User::find(Auth::id());
-        $postings = BufferPosting::with('groupInfo','accountInfo')->where('user_id', Auth::id())->paginate(15);
-        // echo '<pre>';
-        // print_r($postings);exit;
-        return view('pages.buffer-postings')->with('postings', $postings)->with('user', $user);
+        $groups = SocialPostGroups::get();
+        return view('pages.buffer-postings')->with('groups', $groups)->with('user', $user);
     }
 
-    public function filterBufferPostings()
+    public function filterBufferPostings(Request $request)
     {
+        $searchText = $request->query('search');
+        $date = $request->query('date');
+        $groupId = $request->query('groupId');
+        // return [
+        //   '$searchText' => $searchText,
+        //   '$date' => $date,
+        //   '$groupId' =>$groupId
+        // ];
+        $where = [];
+        array_push($where,['user_id', '=', Auth::id()]);
+        if($date){
+          $dateF = '%'.$date.'%';
+          array_push($where,['created_at', 'LIKE', $dateF]);
+        }
+        if($groupId){
+          array_push($where,['group_id', '=', $groupId]);
+        }
+        if($searchText){
+          $searchTextF = '%'.$searchText.'%';
+          array_push($where,['post_text', 'LIKE', $searchTextF]);
+        }
+        // return $where;
         $user = User::find(Auth::id());
-        $postings = BufferPosting::with('groupInfo','accountInfo')->where('user_id', Auth::id())->paginate(15);
+        $postings = BufferPosting::with('groupInfo','accountInfo')->where($where)->paginate(15);
         return $postings;
     }
 

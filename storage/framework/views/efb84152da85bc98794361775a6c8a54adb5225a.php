@@ -14,10 +14,10 @@
 		</div>
 		<div class="col-md-4">
 			<select class="filter filter-group form-control" id="groupId">
-			  <option value="volvo">Volvo</option>
-			  <option value="saab">Saab</option>
-			  <option value="mercedes">Mercedes</option>
-			  <option value="audi">Audi</option>
+			  	<option value="">Filter BY Group</option>
+				<?php $__currentLoopData = $groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+					<option value="<?php echo e($group->id); ?>"><?php echo e($group->name); ?></option>
+				<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 			</select>
 		</div>
 	</div>

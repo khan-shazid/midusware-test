@@ -15,10 +15,10 @@
 		</div>
 		<div class="col-md-4">
 			<select class="filter filter-group form-control" id="groupId">
-			  <option value="volvo">Volvo</option>
-			  <option value="saab">Saab</option>
-			  <option value="mercedes">Mercedes</option>
-			  <option value="audi">Audi</option>
+			  	<option value="">Filter BY Group</option>
+				@foreach($groups as $group)
+					<option value="{{$group->id}}">{{$group->name}}</option>
+				@endforeach
 			</select>
 		</div>
 	</div>
