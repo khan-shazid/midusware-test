@@ -169,11 +169,6 @@ class PagesController extends Controller
         $searchText = $request->query('search');
         $date = $request->query('date');
         $groupId = $request->query('groupId');
-        // return [
-        //   '$searchText' => $searchText,
-        //   '$date' => $date,
-        //   '$groupId' =>$groupId
-        // ];
         $where = [];
         array_push($where,['user_id', '=', Auth::id()]);
         if($date){
@@ -183,13 +178,25 @@ class PagesController extends Controller
         if($groupId){
           array_push($where,['group_id', '=', $groupId]);
         }
-        if($searchText){
-          $searchTextF = '%'.$searchText.'%';
-          array_push($where,['post_text', 'LIKE', $searchTextF]);
-        }
+        // if($searchText){
+        //   $searchTextF = '%'.$searchText.'%';
+        //   array_push($where,['post_text', 'LIKE', $searchTextF]);
+        // }
         // return $where;
         $user = User::find(Auth::id());
-        $postings = BufferPosting::with('groupInfo','accountInfo')->where($where)->paginate(15);
+        try{
+          $postings = BufferPosting::with('groupInfo','accountInfo')
+                                   ->where($where)
+                                   ->where(function($q) use ($searchText){
+                                     if($searchText){
+                                       $q->where('post_text', 'LIKE', '%'.$searchText.'%');
+                                     }
+                                   })
+                                   ->paginate(15);
+        }catch(\Exception $e){
+          return $e->getMessage();
+        }
+
         return $postings;
     }
 
