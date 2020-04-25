@@ -125,12 +125,12 @@ class PagesController extends Controller
         $user->verification_token = $data['verification_token'];
         $user->save();
 
-        
+
         $mail = Mail::send('mails.confirmation',  $data, function($message) use ($data){
-            $message->to($data['email']);            
+            $message->to($data['email']);
             $message->subject('Registration Confirmation');
         });
-        
+
 
 
         return view('auth.confirmation')->with('method', 'post');
@@ -154,6 +154,28 @@ class PagesController extends Controller
         $profiles = SocialAccounts::where('user_id', Auth::id())->get();
         return view('pages.social-accounts')->with('profiles', $profiles)->with('user', $user);
     }
+
+    // created by shazid --start--
+
+    public function bufferPostings(Request $request)
+    {
+        $user = User::find(Auth::id());
+        $postings = BufferPosting::with('groupInfo','accountInfo')->where('user_id', Auth::id())->paginate(15);
+        // echo '<pre>';
+        // print_r($postings);exit;
+        return view('pages.buffer-postings')->with('postings', $postings)->with('user', $user);
+    }
+
+    public function filterBufferPostings(Request $request)
+    {
+        $user = User::find(Auth::id());
+        $postings = BufferPosting::with('groupInfo','accountInfo')->where('user_id', Auth::id())->paginate(15);
+        return $postings;
+    }
+
+    // --end--
+
+
 
     public function analytics()
     {

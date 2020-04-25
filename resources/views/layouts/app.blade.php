@@ -10,9 +10,13 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <!-- created by shazid start -->
+  
 
-    <link rel=”stylesheet” href=” https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
-    <script src=”https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <!-- end -->
+
+    <link rel=”stylesheet” href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
 
 
@@ -322,6 +326,9 @@ if($user_meta['temp_user'] === true){
 
                     <li @if ($route=='history') class="active" @endif><a href="{{ url('/history') }}"> <i
                                     class="fa fa-home"></i> History</a></li>
+
+                    <li @if ($route=='buffer-postings') class="active" @endif><a href="{{ url('/buffer-postings') }}"> <i
+                                    class="fa fa-home"></i> Buffer Postings</a></li>
                 @endif
             </ul>
         </div><!-- /.container-fluid -->

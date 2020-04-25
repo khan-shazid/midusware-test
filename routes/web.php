@@ -77,6 +77,10 @@ Route::get('/buffer/change/{buffer_id}', 'HomeController@bufferChange')->name('b
 Route::resource('subscriptions', 'SubscriptionController');
 Route::get('/settings', 'PagesController@settings')->name('settings');;
 Route::get('/social-accounts', 'PagesController@socialAccounts')->name('social-accounts');
+/* created by shazid --start-- */
+Route::get('/buffer-postings', 'PagesController@bufferPostings')->name('buffer-postings');
+Route::get('/filter-buffer-postings', 'PagesController@filterBufferPostings')->name('filter-buffer-postings');
+// --end--
 Route::get('/users/confirmation/', 'PagesController@confirmation');
 Route::get('/users/confirmation/{token}', 'PagesController@confirmationToken')->name('confirmation');
 Route::post('/users/confirmation/', 'PagesController@confirmationPost');
@@ -459,4 +463,3 @@ Route::get('/sendPostTest', 'CronController@sendPostTest');
 
 Route::get('/app/bulk.ly/free/{code}','Auth\RegisterController@validUserRegistrationForm')->name('bulk.free-signup');
 Route::post('/app/bulk.ly/free/signUp/{code}','Auth\RegisterController@validUserRegistration');
-

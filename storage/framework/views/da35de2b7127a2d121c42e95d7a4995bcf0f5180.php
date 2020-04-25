@@ -10,9 +10,13 @@
     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <!-- created by shazid start -->
+  
 
-    <link rel=”stylesheet” href=” https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
-    <script src=”https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <!-- end -->
+
+    <link rel=”stylesheet” href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
 
 
@@ -320,8 +324,9 @@ if($user_meta['temp_user'] === true){
 
                     <li <?php if($route=='history'): ?> class="active" <?php endif; ?>><a href="<?php echo e(url('/history')); ?>"> <i
                                     class="fa fa-home"></i> History</a></li>
-                    <li <?php if($route=='buffer-posting'): ?> class="active" <?php endif; ?>><a href="<?php echo e(url('/buffer-posting')); ?>"> <i
-                                    class="fa fa-home"></i> Buffer Posting</a></li>
+
+                    <li <?php if($route=='buffer-postings'): ?> class="active" <?php endif; ?>><a href="<?php echo e(url('/buffer-postings')); ?>"> <i
+                                    class="fa fa-home"></i> Buffer Postings</a></li>
                 <?php endif; ?>
             </ul>
         </div><!-- /.container-fluid -->
