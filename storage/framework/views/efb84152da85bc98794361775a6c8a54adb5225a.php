@@ -41,8 +41,8 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-12" id="pagination">
-			<div class="btn-group" role="group" aria-label="Basic example">
+		<div class="col-md-12">
+			<div class="btn-group" role="group" aria-label="Basic example" id="pagination">
 			</div>
 		</div>
 	</div>
@@ -51,8 +51,50 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+var page = 1;
+function fetchWithPagination(pageNumber){
+	page = pageNumber;
+	filterData($('.search-text').val(),$('.filter-date').val(),$('.filter-group').val(),pageNumber)
+}
+
+function filterData(str = '',date = '',groupId = '',page = 1){
+	let queryParams = 'search='+str+'&date='+date+'&groupId='+groupId+'&page='+page;
+	console.log("queryParams",queryParams);
+	$.ajax({
+		url: "/filter-buffer-postings?"+queryParams,
+		success: function(result){
+			// $("#div1").html(result);
+			console.log(result)
+			let htmlResult = '';
+			if(result.data && result.data.length){
+				result.data.forEach(function(item,i){
+					htmlResult += '<tr>'+
+												'<td>'+item.group_info.name+'</td>'+
+												'<td>'+item.group_info.type+'</td>'+
+												'<td>'+item.account_info.name+'</td>'+
+												'<td>'+item.post_text+'</td>'+
+												'<td>'+item.created_at+'</td>'+
+										'</tr>'
+
+				})
+			}
+			$('#set-ajax-data').html(htmlResult);
+			let paginationResult = '';
+			if(result.last_page){
+				for(let i = 0; i < result.last_page; i++){
+					if(i+1==result.current_page){
+						paginationResult += '<button class="btn btn-success" onclick="fetchWithPagination('+(i+1)+')">'+(i+1)+'</button>';
+					}else{
+						paginationResult += '<button class="btn btn-info" onclick="fetchWithPagination('+(i+1)+')">'+(i+1)+'</button>';
+					}
+				}
+			}
+			$('#pagination').html(paginationResult);
+		}
+	});
+}
+
 $(document).ready(function(){
-	var page = 1;
 	filterData()
 	// $.ajax({
 	// 	url: "/filter-buffer-postings",
@@ -71,42 +113,6 @@ $(document).ready(function(){
 		 filterData($('.search-text').val(),$('.filter-date').val(),$('.filter-group').val(),page)
   });
 
-	function filterData(str = '',date = '',groupId = '',page = 1){
-		let queryParams = 'search='+str+'&date='+date+'&groupId='+groupId+'&page='+page;
-		console.log("queryParams",queryParams);
-		$.ajax({
-			url: "/filter-buffer-postings?",
-			success: function(result){
-	      // $("#div1").html(result);
-				console.log(result)
-				let htmlResult = '';
-				if(result.data && result.data.length){
-					result.data.forEach(function(item,i){
-						htmlResult += '<tr>'+
-													'<td>'+item.group_info.name+'</td>'+
-													'<td>'+item.group_info.type+'</td>'+
-													'<td>'+item.account_info.name+'</td>'+
-													'<td>'+item.post_text+'</td>'+
-													'<td>'+item.created_at+'</td>'+
-											'</tr>'
-
-					})
-				}
-				$('#set-ajax-data').html(htmlResult);
-				let paginationResult = '';
-				if(result.last_page){
-					for(let i = 0; i < result.last_page; i++){
-						if(i+1==result.current_page){
-							paginationResult += '<button class="btn btn-success">'+(i+1)+'</button>';
-						}else{
-							paginationResult += '<button class="btn btn-info">'+(i+1)+'</button>';
-						}
-					}
-				}
-				$('#pagination').html(paginationResult);
-	    }
-		});
-	}
 });
 </script>
 <?php $__env->stopSection(); ?>

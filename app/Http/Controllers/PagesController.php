@@ -166,7 +166,7 @@ class PagesController extends Controller
         return view('pages.buffer-postings')->with('postings', $postings)->with('user', $user);
     }
 
-    public function filterBufferPostings(Request $request)
+    public function filterBufferPostings()
     {
         $user = User::find(Auth::id());
         $postings = BufferPosting::with('groupInfo','accountInfo')->where('user_id', Auth::id())->paginate(15);
